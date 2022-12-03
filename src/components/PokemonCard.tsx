@@ -17,7 +17,13 @@ interface IPokemonCard extends PokemonFromServer, IPokemonVote {
 const PokemonCard = ({ name, sprites, vote, selected }: IPokemonCard) => {
   return (
     <div className="w-64 h-64 flex flex-col items-center">
-      <Image src={sprites!} alt="seconde pokemon" width={256} height={256} />
+      <Image
+        src={sprites!}
+        alt="seconde pokemon"
+        width={256}
+        height={256}
+        loading="lazy"
+      />
       <p className="text-xl text-center capitalize mt-[-2rem]">{name}</p>
       <button className={btn} onClick={() => vote({ selected })}>
         Rounder
