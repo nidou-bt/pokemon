@@ -3,9 +3,6 @@ import { trpc } from "@/utils/trpc";
 import { getOptionsForVote } from "@/utils/getRandomPokemon";
 import PokemonCard from "@/components/PokemonCard";
 
-const btn =
-  "inline-flex items-center px-3 py-1.5 border border-gray-300 shadow-sm font-medium rounded-full text-gray-700 bg-white hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500";
-
 const Home = () => {
   const [ids, setIds] = useState<number[]>(() => getOptionsForVote());
   const [first, second] = ids;
@@ -28,7 +25,7 @@ const Home = () => {
     } else {
       mutate({ votedFor: second, votedAgainst: first });
     }
-    console.log('selected', selected)
+    console.log("selected", selected);
     return setIds(getOptionsForVote());
   };
 

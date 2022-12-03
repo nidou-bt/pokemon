@@ -1,9 +1,10 @@
 import { z } from "zod";
 import { procedure, router } from "../trpc";
-import { PokemonClient } from "pokenode-ts";
+// import { PokemonClient } from "pokenode-ts";
 import { prisma } from "@/server/utils/prisma";
+import { TRPCError } from "@trpc/server";
 
-const api = new PokemonClient();
+// const api = new PokemonClient();
 
 export const appRouter = router({
   pokemon: procedure
@@ -13,10 +14,20 @@ export const appRouter = router({
       })
     )
     .query(async ({ input }) => {
-      const pokemon = await api.getPokemonById(input.id);
+      // const pokemon = await api.getPokemonById(input.id);
+      const pokemon = await prisma.pokemon.findUnique({
+        where: { pokemonId: input.id },
+      });
+      if (!pokemon) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "An unexpected error occurred, please try again later.",
+          cause: "no pokemon with this id",
+        });
+      }
       return {
         name: pokemon.name,
-        sprites: pokemon.sprites.front_default,
+        sprites: pokemon.spriteUrl,
       };
     }),
   vote: procedure
@@ -27,10 +38,12 @@ export const appRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      const voteInDb = await prisma.vote.create({data: {
-        ...input,
-      }})
-      
+      const voteInDb = await prisma.vote.create({
+        data: {
+          ...input,
+        },
+      });
+
       return { success: true, vote: voteInDb };
     }),
 });

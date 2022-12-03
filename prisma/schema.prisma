@@ -22,6 +22,7 @@ model Vote {
 
 model Pokemon {
   id          String @id @default(auto()) @map("_id") @db.ObjectId
+  pokemonId   Int    @unique
   name        String
   spriteUrl   String
   VoteFor     Vote[] @relation("votesFor")
