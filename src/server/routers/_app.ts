@@ -38,6 +38,7 @@ export const appRouter = router({
       })
     )
     .mutation(async ({ input }) => {
+      console.log('input', input)
       const voteInDb = await prisma.vote.create({
         data: {
           ...input,
