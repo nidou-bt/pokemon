@@ -7,9 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Vote {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  createdAt DateTime @default(now())
+  votedForId     Int
+  votedAgainstId Int
+}
+
 model Pokemon {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId
-  name      String
-  pokemonId BigInt
-  spriteUrl String
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  pokemonId   Int    @unique
+  spriteUrl   String
+  VoteFor     Int[]
+  VoteAgainst Int[]
 }

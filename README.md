@@ -38,3 +38,4 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 npx prisma generate
 npx prisma db pull --force
 npx prisma studio
+npm run ts-node ./src/scripts/fill-db.ts

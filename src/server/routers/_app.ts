@@ -15,7 +15,7 @@ export const appRouter = router({
     )
     .query(async ({ input }) => {
       // const pokemon = await api.getPokemonById(input.id);
-      const pokemon = await prisma.pokemon.findUnique({
+      const pokemon = await prisma.pokemon.findFirst({
         where: { pokemonId: input.id },
       });
       if (!pokemon) {
@@ -38,11 +38,9 @@ export const appRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      console.log('input', input)
+      console.log("input", input);
       const voteInDb = await prisma.vote.create({
-        data: {
-          ...input,
-        },
+        data: { votedForId: input.votedFor, votedAgainstId: input.votedAgainst },
       });
 
       return { success: true, vote: voteInDb };
